@@ -209,7 +209,7 @@ class TestPQCSigner:
         total_time = (time.perf_counter() - start_time) * 1000  # ms
 
         assert is_valid is True
-        assert total_time < 500.0, f"Performance requirement failed: {total_time:.2f}ms > 500ms"
+        assert total_time < 500.0, "Performance requirement failed: {:.2f}ms > 500ms".format(total_time)
 
     def test_invalid_key_handling(self):
         """Test error handling for invalid keys."""

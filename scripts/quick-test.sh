@@ -6,6 +6,14 @@ cd "$ROOT"
 
 echo "🦴 CAVEMAN QUICK TEST!"
 
+# Activate venv
+if [ -f ".venv/bin/activate" ]; then
+    source .venv/bin/activate
+    echo "  ✅ Virtual env activated"
+else
+    echo "  ⚠️ No venv - using system python"
+fi
+
 # 1. Python imports
 echo "→ Python imports..."
 python3 -c "import pennylane; print(f'  PennyLane {pennylane.__version__}')" 2>/dev/null && echo "  ✅ PennyLane OK" || echo "  ❌ PennyLane FAIL"
@@ -41,9 +49,9 @@ else
 fi
 
 # 5. Unit tests (if pytest available)
-if command -v pytest &>/dev/null && [ -d "tests" ]; then
+if [ -d "tests" ]; then
     echo "→ Running unit tests..."
-    pytest tests/unit/ -q --tb=short 2>/dev/null || echo "  ⚠ Some tests failed — check output"
+    python3 -m pytest tests/unit/ -q --tb=short 2>/dev/null || echo "  ⚠ Some tests failed — check output"
 fi
 
 echo "=== Quick test complete ==="
