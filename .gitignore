@@ -21,5 +21,5 @@ requirements.lock
 data/synthetic/*.json
 
 # Build artifacts
-*.pdf
-*.pptx
+# *.pdf
+# *.pptx
