@@ -19,6 +19,11 @@ from .pqc_signer import (
 )
 from .qml_engine import CascadeAnalyzer
 from .data_pipeline import get_live_features
+from .scenario_runner import ScenarioRunner
+
+from fastapi import WebSocket, WebSocketDisconnect
+import asyncio
+import json
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -46,6 +51,9 @@ key_registry = ResponderKeyRegistry()
 
 # Initialize QML cascade analyzer
 cascade_analyzer = CascadeAnalyzer()
+
+# Initialize scenario runner
+scenario_runner = ScenarioRunner(pqc_signer, key_registry)
 
 logger.info("QAegisPralaya backend initialized")
 
@@ -292,6 +300,110 @@ async def general_exception_handler(request: Request, exc: Exception):
         }
     )
 
+
+@app.get("/health")
+async def health_check() -> Dict[str, Any]:
+    """Health check with component status"""
+    try:
+        # Check QML weights
+        weights_file = Path(__file__).parent / "models/vqc_weights.json"
+        qml_status = "loaded" if weights_file.exists() else "missing"
+
+        # Check PQC availability
+        pqc_status = "available" if hasattr(pqc_signer, '_use_liboqs') and pqc_signer._use_liboqs else "fallback"
+
+        return {
+            "status": "ok",
+            "qml": qml_status,
+            "pqc": pqc_status,
+            "responders": len(key_registry.list_responders()),
+            "active_scenarios": len(scenario_runner.get_active_scenarios())
+        }
+    except Exception as e:
+        logger.error(f"Health check failed: {e}")
+        return {"status": "error", "message": str(e)}
+
+@app.post("/scenario/{scenario_type}")
+async def start_scenario(scenario_type: str) -> Dict[str, Any]:
+    """Start a background cascade scenario simulation"""
+    try:
+        if scenario_type not in ["flood_grid", "heat_hospital", "cyclone_comms"]:
+            raise HTTPException(status_code=400, detail=f"Invalid scenario: {scenario_type}")
+
+        result = await scenario_runner.start_scenario(scenario_type)
+        return result
+
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    except Exception as e:
+        logger.error(f"Failed to start scenario {scenario_type}: {e}")
+        raise HTTPException(status_code=500, detail=f"Scenario start failed: {str(e)}")
+
+@app.delete("/scenario/{scenario_type}")
+async def stop_scenario(scenario_type: str) -> Dict[str, Any]:
+    """Stop a running scenario"""
+    try:
+        stopped = await scenario_runner.stop_scenario(scenario_type)
+        if stopped:
+            return {"status": "stopped", "scenario": scenario_type}
+        else:
+            raise HTTPException(status_code=404, detail=f"Scenario {scenario_type} not running")
+    except Exception as e:
+        logger.error(f"Failed to stop scenario {scenario_type}: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/scenarios")
+async def list_active_scenarios() -> Dict[str, Any]:
+    """List all active scenarios"""
+    return {"active_scenarios": scenario_runner.get_active_scenarios()}
+
+@app.websocket("/ws/incidents")
+async def incidents_websocket(websocket: WebSocket):
+    """WebSocket stream of signed incident reports during active scenarios"""
+    await websocket.accept()
+    logger.info("New incidents WebSocket connection")
+
+    queue = scenario_runner.subscribe_incidents()
+
+    try:
+        while True:
+            # Get message from queue (wait for new incidents)
+            try:
+                message = await asyncio.wait_for(queue.get(), timeout=1.0)
+                await websocket.send_text(json.dumps(message))
+            except asyncio.TimeoutError:
+                # Send heartbeat to keep connection alive
+                await websocket.send_text(json.dumps({"type": "heartbeat", "timestamp": time.time()}))
+
+    except WebSocketDisconnect:
+        logger.info("Incidents WebSocket disconnected")
+    except Exception as e:
+        logger.error(f"Incidents WebSocket error: {e}")
+        await websocket.close()
+
+@app.websocket("/ws/alerts")
+async def alerts_websocket(websocket: WebSocket):
+    """WebSocket stream of cascade analysis alerts during active scenarios"""
+    await websocket.accept()
+    logger.info("New alerts WebSocket connection")
+
+    queue = scenario_runner.subscribe_alerts()
+
+    try:
+        while True:
+            # Get message from queue (wait for new alerts)
+            try:
+                message = await asyncio.wait_for(queue.get(), timeout=1.0)
+                await websocket.send_text(json.dumps(message))
+            except asyncio.TimeoutError:
+                # Send heartbeat
+                await websocket.send_text(json.dumps({"type": "heartbeat", "timestamp": time.time()}))
+
+    except WebSocketDisconnect:
+        logger.info("Alerts WebSocket disconnected")
+    except Exception as e:
+        logger.error(f"Alerts WebSocket error: {e}")
+        await websocket.close()
 
 # Pydantic model for cascade prediction
 class PredictRequest(BaseModel):
