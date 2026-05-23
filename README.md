@@ -3,7 +3,8 @@
 **Hybrid Quantum-Classical Emergency Operations Center Platform**
 
 *QuantumX 2026 Hackathon - Problem #16*
-Presentation Deck : shor_presentation.pdf
+
+**Presentation Deck : shor_presentation.pdf**
 
 ## 🎯 Overview
 
