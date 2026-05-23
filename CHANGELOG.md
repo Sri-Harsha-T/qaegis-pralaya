@@ -6,8 +6,11 @@
 - **backend/main.py**: Fixed PQC health check attribute mismatch (`_use_liboqs` → `use_dilithium`)
 - **backend/main.py**: Added missing `pathlib.Path` import for VQC weights file check
 - **backend/pqc_signer.py**: Force HMAC fallback mode to prevent liboqs compilation on startup
+- **backend/scenario_runner.py**: Fixed AttributeError (`list_responders` → `list_active_responders`)
+- **backend/main.py**: Fixed health check method name to match ResponderKeyRegistry API
 - Backend now starts instantly without attempting to build/compile liboqs shared libraries
 - Backend properly reports 'fallback' status when liboqs unavailable (graceful degradation)
+- **DEMO READY**: All 3 scenarios (flood_grid, heat_hospital, cyclone_comms) now functional
 
 ### Phase 1-C — PQC Layer (2026-05-23)
 - **backend/pqc_signer.py**: Complete PQC signing implementation with HMAC-SHA256 fallback

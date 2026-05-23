@@ -28,6 +28,8 @@ Phase 2 Backend Integration:
 - [x] Backend now properly reports 'fallback' status when liboqs unavailable
 - [x] CRITICAL: Forced HMAC fallback mode to prevent liboqs compilation on startup
 - [x] Backend now starts instantly without attempting to build/compile liboqs
+- [x] CAVEMAN SMASH: Fixed scenario_runner AttributeError (list_responders → list_active_responders)
+- [x] Demo scenarios now work: flood_grid, heat_hospital, cyclone_comms
 
 ## Completed
 - [x] Phase 0: Repo scaffold, CLAUDE.md, memory-bank, ADRs, phase specs
