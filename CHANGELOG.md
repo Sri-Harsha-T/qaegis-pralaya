@@ -8,9 +8,13 @@
 - **backend/pqc_signer.py**: Force HMAC fallback mode to prevent liboqs compilation on startup
 - **backend/scenario_runner.py**: Fixed AttributeError (`list_responders` → `list_active_responders`)
 - **backend/main.py**: Fixed health check method name to match ResponderKeyRegistry API
+- **backend/qml_engine.py**: Fixed PCA `explained_variance_` AttributeError with graceful fallback
+- **frontend/main.jsx**: Added missing Leaflet CSS import for proper map rendering
+- **frontend/IncidentMap.jsx**: Replaced broken SVG icons with reliable HTML DivIcon markers
 - Backend now starts instantly without attempting to build/compile liboqs shared libraries
 - Backend properly reports 'fallback' status when liboqs unavailable (graceful degradation)
-- **DEMO READY**: All 3 scenarios (flood_grid, heat_hospital, cyclone_comms) now functional
+- Frontend map markers now render correctly (green circles for responders, red diamonds for incidents)
+- **DEMO FULLY OPERATIONAL**: All systems working - scenarios, PQC signing, map visualization
 
 ### Phase 1-C — PQC Layer (2026-05-23)
 - **backend/pqc_signer.py**: Complete PQC signing implementation with HMAC-SHA256 fallback
