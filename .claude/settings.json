@@ -1,0 +1,19 @@
+{
+  "model": "claude-sonnet-4-20250514",
+  "context_window_tokens": 180000,
+  "compact_threshold": 0.60,
+  "compact_directive": "Focus: [current task from activeContext.md]. Skip completed phases.",
+  "auto_read_on_session_start": [
+    "CLAUDE.md",
+    "memory-bank/activeContext.md"
+  ],
+  "never_auto_read": [
+    "memory-bank/projectBrief.md",
+    "docs/adr/*.md",
+    "docs/phases/*/spec.md"
+  ],
+  "parallel_agent_groups": {
+    "phase_1": ["data-pipeline", "qml-engine", "pqc-layer"],
+    "phase_3": ["dashboard", "demo"]
+  }
+}

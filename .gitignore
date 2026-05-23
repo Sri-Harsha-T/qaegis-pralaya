@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+*.egg-info/
+.pytest_cache/
+
+# Environment
+.env
+
+# Node
+node_modules/
+frontend/dist/
+frontend/.vite/
+
+# Model weights (generated — not committed)
+backend/models/vqc_weights.json
+requirements.lock
+
+# Data (generated)
+data/synthetic/*.json
+
+# Build artifacts
+*.pdf
+*.pptx
