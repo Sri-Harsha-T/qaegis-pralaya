@@ -18,9 +18,14 @@ Phase 2 COMPLETE → Phase 3 STARTING (Dashboard)
 ## Next Action
 Phase 2 Backend Integration:
 - WebSocket real-time updates
-- Integration testing
+- Integration testing  
 - Performance optimization
 - Demo scenarios
+
+## Recent Fixes
+- [x] Fixed PQC health check attribute mismatch (_use_liboqs → use_dilithium)
+- [x] Added missing pathlib.Path import for VQC weights check
+- [x] Backend now properly reports 'fallback' status when liboqs unavailable
 
 ## Completed
 - [x] Phase 0: Repo scaffold, CLAUDE.md, memory-bank, ADRs, phase specs
