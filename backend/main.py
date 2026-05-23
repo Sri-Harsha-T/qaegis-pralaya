@@ -3,6 +3,7 @@
 QAegisPralaya Backend - FastAPI application with PQC signing endpoints.
 """
 import logging
+from pathlib import Path
 from typing import Dict, Any
 
 from fastapi import FastAPI, HTTPException, Request
@@ -310,7 +311,7 @@ async def health_check() -> Dict[str, Any]:
         qml_status = "loaded" if weights_file.exists() else "missing"
 
         # Check PQC availability
-        pqc_status = "available" if hasattr(pqc_signer, '_use_liboqs') and pqc_signer._use_liboqs else "fallback"
+        pqc_status = "available" if hasattr(pqc_signer, 'use_dilithium') and pqc_signer.use_dilithium else "fallback"
 
         return {
             "status": "ok",
