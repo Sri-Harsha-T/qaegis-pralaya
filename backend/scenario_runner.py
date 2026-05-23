@@ -96,7 +96,8 @@ class ScenarioRunner:
                 logger.error(f"No samples available for {scenario_type}")
                 return
 
-            responder_ids = self.key_registry.list_responders()
+            responders = self.key_registry.list_active_responders()
+            responder_ids = [r["responder_id"] for r in responders]
             if not responder_ids:
                 logger.error("No responders available for signing")
                 return

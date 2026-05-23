@@ -317,7 +317,7 @@ async def health_check() -> Dict[str, Any]:
             "status": "ok",
             "qml": qml_status,
             "pqc": pqc_status,
-            "responders": len(key_registry.list_responders()),
+            "responders": len(key_registry.list_active_responders()),
             "active_scenarios": len(scenario_runner.get_active_scenarios())
         }
     except Exception as e:
