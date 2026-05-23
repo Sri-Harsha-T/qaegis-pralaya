@@ -33,7 +33,10 @@ Phase 2 Backend Integration:
 - [x] Added explained_variance_ to PCA save/load for sklearn compatibility
 - [x] Added missing Leaflet CSS import for proper map styling
 - [x] Replaced broken SVG icons with reliable HTML DivIcon markers
-- [x] DEMO FULLY OPERATIONAL: All scenarios work, all markers render, no PCA errors
+- [x] CAVEMAN MEGA SMASH: Fixed 0% risk issue - backend must run with venv activated
+- [x] Added virtual environment check to run_demo.sh to prevent confusion
+- [x] QML cascade analysis working: returns 50-80% risks when venv active
+- [x] DEMO FULLY OPERATIONAL: All scenarios work, all markers render, realistic risk values
 
 ## Completed
 - [x] Phase 0: Repo scaffold, CLAUDE.md, memory-bank, ADRs, phase specs
