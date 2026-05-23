@@ -5,7 +5,9 @@
 ### Backend Fixes (2026-05-23)
 - **backend/main.py**: Fixed PQC health check attribute mismatch (`_use_liboqs` → `use_dilithium`)
 - **backend/main.py**: Added missing `pathlib.Path` import for VQC weights file check
-- Backend now properly reports 'fallback' status when liboqs unavailable (graceful degradation)
+- **backend/pqc_signer.py**: Force HMAC fallback mode to prevent liboqs compilation on startup
+- Backend now starts instantly without attempting to build/compile liboqs shared libraries
+- Backend properly reports 'fallback' status when liboqs unavailable (graceful degradation)
 
 ### Phase 1-C — PQC Layer (2026-05-23)
 - **backend/pqc_signer.py**: Complete PQC signing implementation with HMAC-SHA256 fallback

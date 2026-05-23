@@ -26,6 +26,8 @@ Phase 2 Backend Integration:
 - [x] Fixed PQC health check attribute mismatch (_use_liboqs → use_dilithium)
 - [x] Added missing pathlib.Path import for VQC weights check
 - [x] Backend now properly reports 'fallback' status when liboqs unavailable
+- [x] CRITICAL: Forced HMAC fallback mode to prevent liboqs compilation on startup
+- [x] Backend now starts instantly without attempting to build/compile liboqs
 
 ## Completed
 - [x] Phase 0: Repo scaffold, CLAUDE.md, memory-bank, ADRs, phase specs
