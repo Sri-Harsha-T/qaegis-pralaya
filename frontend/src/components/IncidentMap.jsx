@@ -10,18 +10,20 @@ L.Icon.Default.mergeOptions({
   shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png',
 })
 
-// Responder icon
-const responderIcon = new L.Icon({
-  iconUrl: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIGZpbGw9IiMxMEI5ODEiIHZpZXdCb3g9IjAgMCAyNCAyNCI+PGNpcmNsZSBjeD0iMTIiIGN5PSIxMiIgcj0iMTAiLz48L3N2Zz4=',
+// Simple green circle for responders
+const responderIcon = new L.DivIcon({
+  className: 'responder-marker',
+  html: '<div style="background: #10B981; border: 2px solid white; border-radius: 50%; width: 16px; height: 16px;"></div>',
   iconSize: [16, 16],
   iconAnchor: [8, 8],
 })
 
-// Incident icon
-const incidentIcon = new L.Icon({
-  iconUrl: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIGZpbGw9IiNFRjQ0NDQiIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZD0iTTEyIDJMMTMuMDkgOC4yNkwyMCA5TDEzLjA5IDE1Ljc0TDEyIDIyTDEwLjkxIDE1Ljc0TDQgOUwxMC45MSA4LjI2TDEyIDJ6Ii8+PC9zdmc+',
-  iconSize: [20, 20],
-  iconAnchor: [10, 10],
+// Red alert triangle for incidents
+const incidentIcon = new L.DivIcon({
+  className: 'incident-marker',
+  html: '<div style="background: #EF4444; border: 2px solid white; border-radius: 3px; width: 16px; height: 16px; transform: rotate(45deg);"></div>',
+  iconSize: [16, 16],
+  iconAnchor: [8, 8],
 })
 
 const responders = [

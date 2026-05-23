@@ -236,6 +236,7 @@ class CascadeRiskScorer:
             "n_pca_dims": self.n_pca_dims,
             "pca_components": self.pca.components_.tolist(),
             "pca_mean": self.pca.mean_.tolist(),
+            "pca_explained_variance": self.pca.explained_variance_.tolist(),
             "scaler_mean": self.scaler.mean_.tolist(),
             "scaler_scale": self.scaler.scale_.tolist(),
             "metadata": metadata or {},
@@ -260,6 +261,7 @@ class CascadeRiskScorer:
         # Restore PCA and scaler
         self.pca.components_ = np.array(data["pca_components"])
         self.pca.mean_ = np.array(data["pca_mean"])
+        self.pca.explained_variance_ = np.array(data.get("pca_explained_variance", [1.0] * self.n_pca_dims))
         self.pca.n_features_in_ = len(data["pca_mean"])
 
         self.scaler.mean_ = np.array(data["scaler_mean"])
