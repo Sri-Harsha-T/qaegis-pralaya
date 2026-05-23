@@ -38,13 +38,12 @@ def main():
     ]
     domain_keys = ["climate", "power_grid", "water", "medical", "telecom"]
 
-    X = np.array([[s[k] for k in feature_keys] for s in all_samples])
-    y = np.array([[s.get(f"risk_{k}", s["cascade_risk"]) for k in domain_keys]
-                  for s in all_samples])
-
+    # Train on all samples (expects list of dicts)
     scorer = CascadeRiskScorer()
-    scorer.fit(X, y)
-    scorer.save_weights(ROOT / "backend" / "models" / "vqc_weights.json")
+    metrics = scorer.train(all_samples)
+    scorer.save_weights()
+
+    log.info(f"✅ Training complete - Accuracy: {metrics['test_accuracy']:.3f}")
     log.info("✅ VQC weights saved to backend/models/vqc_weights.json")
 
 if __name__ == "__main__":

@@ -1,0 +1,46 @@
+{
+  "responders": {
+    "resp_fire_001": {
+      "responder_id": "resp_fire_001",
+      "public_key_hex": "f6ce473444d1c264ecfe0085f56d607da15cb5a02946f25d066e997e126d8b49",
+      "private_key_hex": "f6ce473444d1c264ecfe0085f56d607da15cb5a02946f25d066e997e126d8b49",
+      "name": "Captain Smith",
+      "department": "Fire Department",
+      "active": true
+    },
+    "resp_fire_002": {
+      "responder_id": "resp_fire_002",
+      "public_key_hex": "ae9d63bddd40e5b63276ceb3ec190eb2f04f05f9441591f678e3dc7032546b25",
+      "private_key_hex": "ae9d63bddd40e5b63276ceb3ec190eb2f04f05f9441591f678e3dc7032546b25",
+      "name": "Lieutenant Jones",
+      "department": "Fire Department",
+      "active": true
+    },
+    "resp_police_001": {
+      "responder_id": "resp_police_001",
+      "public_key_hex": "7847b5b5ede1b8583c7aba76acdf029d0aa11c98738c18555d82e4ace6b8686d",
+      "private_key_hex": "7847b5b5ede1b8583c7aba76acdf029d0aa11c98738c18555d82e4ace6b8686d",
+      "name": "Officer Brown",
+      "department": "Police Department",
+      "active": true
+    },
+    "resp_police_002": {
+      "responder_id": "resp_police_002",
+      "public_key_hex": "a9084c729a8e7afe37c4be0843bee4a9cc76c9d7fa3e903afdb0d9a274a3879c",
+      "private_key_hex": "a9084c729a8e7afe37c4be0843bee4a9cc76c9d7fa3e903afdb0d9a274a3879c",
+      "name": "Sergeant Davis",
+      "department": "Police Department",
+      "active": true
+    },
+    "resp_medical_001": {
+      "responder_id": "resp_medical_001",
+      "public_key_hex": "5f0f8e92273fac1cbd1bda574ac4e8b2e3f8aa01d57cd47512c8461cdd5e00f0",
+      "private_key_hex": "5f0f8e92273fac1cbd1bda574ac4e8b2e3f8aa01d57cd47512c8461cdd5e00f0",
+      "name": "Paramedic Wilson",
+      "department": "Medical Services",
+      "active": true
+    }
+  },
+  "algorithm": "HMAC-SHA256",
+  "last_updated": "2026-05-23T11:18:08.517531Z"
+}

@@ -18,3 +18,14 @@ status: todo
 
 ## Spec
 See `docs/phases/phase-1-data/spec.md`
+
+## Tasks Created
+- [ ] 001.md - Synthetic cascade scenario generator (parallel: true)
+- [ ] 002.md - OpenWeatherMap API client + normaliser (parallel: true)
+- [ ] 003.md - USGS seismic GeoJSON client (parallel: true)
+- [ ] 004.md - Cascade label generator (graph simulation) (parallel: false)
+
+Total tasks: 4
+Parallel tasks: 3
+Sequential tasks: 1
+Estimated total effort: 1 hour

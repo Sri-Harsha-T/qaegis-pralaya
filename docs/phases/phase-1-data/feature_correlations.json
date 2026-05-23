@@ -1,0 +1,31 @@
+{
+  "_description": "Feature correlation matrix for Gaussian copula sampling (ADR-0003)",
+  "_domains": ["temperature", "wind", "precipitation", "grid_load", "grid_outages", "water_pressure", "water_treatment", "hospital_bed", "ambulance", "telecom_uptime"],
+  "correlation_matrix": [
+    [1.0, 0.3, 0.2, 0.1, 0.1, 0.2, 0.2, 0.1, 0.1, 0.1],
+    [0.3, 1.0, 0.4, 0.2, 0.2, 0.1, 0.1, 0.1, 0.1, 0.2],
+    [0.2, 0.4, 1.0, 0.3, 0.1, 0.5, 0.3, 0.1, 0.1, 0.2],
+    [0.1, 0.2, 0.3, 1.0, 0.6, 0.2, 0.2, 0.3, 0.2, 0.4],
+    [0.1, 0.2, 0.1, 0.6, 1.0, 0.1, 0.1, 0.2, 0.1, 0.3],
+    [0.2, 0.1, 0.5, 0.2, 0.1, 1.0, 0.6, 0.2, 0.1, 0.1],
+    [0.2, 0.1, 0.3, 0.2, 0.1, 0.6, 1.0, 0.1, 0.1, 0.1],
+    [0.1, 0.1, 0.1, 0.3, 0.2, 0.2, 0.1, 1.0, 0.7, 0.2],
+    [0.1, 0.1, 0.1, 0.2, 0.1, 0.1, 0.1, 0.7, 1.0, 0.1],
+    [0.1, 0.2, 0.2, 0.4, 0.3, 0.1, 0.1, 0.2, 0.1, 1.0]
+  ],
+  "feature_names": [
+    "temperature_c",
+    "wind_kmh",
+    "precipitation_mm",
+    "grid_load_pct",
+    "grid_outage_nodes",
+    "water_pressure_bar",
+    "water_treatment_pct",
+    "hospital_bed_pct",
+    "ambulance_available",
+    "telecom_uptime_pct"
+  ],
+  "pca_target_dims": 5,
+  "copula_type": "gaussian",
+  "calibrated_against": ["flood_grid", "heat_hospital", "cyclone_comms"]
+}
