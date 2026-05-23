@@ -18,17 +18,20 @@ from uuid import uuid4
 # Setup logging
 logger = logging.getLogger(__name__)
 
-# Check for liboqs availability
+# Force HMAC-SHA256 fallback mode (skip liboqs entirely for demo)
 HAS_LIBOQS = False
-try:
-    import oqs
-    if "Dilithium3" in oqs.get_enabled_sig_mechanisms():
-        HAS_LIBOQS = True
-        logger.info("✅ Dilithium3 available via liboqs-python")
-    else:
-        logger.warning("⚠️  Dilithium3 not available in liboqs mechanisms")
-except ImportError:
-    logger.warning("⚠️  liboqs-python not available. Using HMAC-SHA256 fallback.")
+logger.warning("⚠️  liboqs-python disabled for demo. Using HMAC-SHA256 fallback.")
+
+# Original liboqs detection code (disabled for demo):
+# try:
+#     import oqs
+#     if "Dilithium3" in oqs.get_enabled_sig_mechanisms():
+#         HAS_LIBOQS = True
+#         logger.info("✅ Dilithium3 available via liboqs-python")
+#     else:
+#         logger.warning("⚠️  Dilithium3 not available in liboqs mechanisms")
+# except ImportError:
+#     logger.warning("⚠️  liboqs-python not available. Using HMAC-SHA256 fallback.")
 
 
 @dataclass
@@ -159,11 +162,14 @@ class PQCSigner:
 
     def _generate_dilithium_keypair(self) -> Tuple[str, str]:
         """Generate Dilithium3 keypair."""
-        signer = oqs.Signature("Dilithium3")
-        public_key = signer.generate_keypair()
-        private_key = signer.export_secret_key()
-
-        return public_key.hex(), private_key.hex()
+        try:
+            import oqs
+            signer = oqs.Signature("Dilithium3")
+            public_key = signer.generate_keypair()
+            private_key = signer.export_secret_key()
+            return public_key.hex(), private_key.hex()
+        except ImportError:
+            raise RuntimeError("liboqs not available - this method should not be called in fallback mode")
 
     def _generate_hmac_keypair(self) -> Tuple[str, str]:
         """Generate HMAC-SHA256 keypair (symmetric key used for both)."""
@@ -198,14 +204,18 @@ class PQCSigner:
 
     def _sign_dilithium(self, message: bytes, private_key_hex: str) -> Tuple[str, str]:
         """Sign with Dilithium3."""
-        signer = oqs.Signature("Dilithium3")
-        private_key = bytes.fromhex(private_key_hex)
+        try:
+            import oqs
+            signer = oqs.Signature("Dilithium3")
+            private_key = bytes.fromhex(private_key_hex)
 
-        # Import the private key
-        signer.set_secret_key(private_key)
+            # Import the private key
+            signer.set_secret_key(private_key)
 
-        signature = signer.sign(message)
-        return signature.hex(), "Dilithium3"
+            signature = signer.sign(message)
+            return signature.hex(), "Dilithium3"
+        except ImportError:
+            raise RuntimeError("liboqs not available - this method should not be called in fallback mode")
 
     def _sign_hmac(self, message: bytes, private_key_hex: str) -> Tuple[str, str]:
         """Sign with HMAC-SHA256."""
@@ -243,9 +253,13 @@ class PQCSigner:
 
     def _verify_dilithium(self, message: bytes, signature: bytes, public_key_hex: str) -> bool:
         """Verify Dilithium3 signature."""
-        verifier = oqs.Signature("Dilithium3")
-        public_key = bytes.fromhex(public_key_hex)
-        return verifier.verify(message, signature, public_key)
+        try:
+            import oqs
+            verifier = oqs.Signature("Dilithium3")
+            public_key = bytes.fromhex(public_key_hex)
+            return verifier.verify(message, signature, public_key)
+        except ImportError:
+            raise RuntimeError("liboqs not available - this method should not be called in fallback mode")
 
     def _verify_hmac(self, message: bytes, signature: bytes, public_key_hex: str) -> bool:
         """Verify HMAC-SHA256 signature."""
