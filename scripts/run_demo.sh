@@ -7,22 +7,32 @@ PORT="${2:-8000}"
 
 echo "🌊 Starting scenario: $SCENARIO"
 
+# Check if virtual environment is activated
+if [[ -z "${VIRTUAL_ENV:-}" ]]; then
+    echo "⚠️  Virtual environment not activated!"
+    echo "   Run: source .venv/bin/activate"
+    echo "   Then: bash scripts/run_demo.sh $SCENARIO"
+    exit 1
+fi
+
 # Check backend is running
 if ! curl -sf "http://localhost:$PORT/health" > /dev/null 2>&1; then
-    echo "❌ Backend not running. Start with: uvicorn backend.main:app --port $PORT"
+    echo "❌ Backend not running. Start with:"
+    echo "   source .venv/bin/activate"
+    echo "   python3 -m uvicorn backend.main:app --reload --port $PORT"
     exit 1
 fi
 
 # Trigger scenario
 curl -sf -X POST "http://localhost:$PORT/scenario/$SCENARIO" \
-  -H "Content-Type: application/json" | python -m json.tool
+  -H "Content-Type: application/json" | python3 -m json.tool
 
 echo ""
 echo "📡 Tailing alert stream for 60 seconds..."
 echo "   (Press Ctrl+C to stop)"
 
 # WebSocket tail via Python
-python - << PYEOF
+python3 - << PYEOF
 import asyncio, websockets, json, sys
 
 async def tail():
@@ -30,7 +40,7 @@ async def tail():
     try:
         async with websockets.connect(uri) as ws:
             count = 0
-            while count < 20:
+            while count < 70:
                 msg = await asyncio.wait_for(ws.recv(), timeout=10)
                 data = json.loads(msg)
                 risk = data.get('overall_risk', 0)
